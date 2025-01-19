@@ -20,7 +20,7 @@ services:
     ports:
       - "${MYSQL_PORT}:3306"
     volumes:
-      - ~/docker/volumes/mysql/data:/var/lib/mysql
+      - ${HOME}/docker/volumes/mysql/data:/var/lib/mysql
     env_file:
       - ./mysql/.env
     environment:
