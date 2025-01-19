@@ -1,0 +1,35 @@
+services:
+  pcubeplus-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: pcubeplus-backend
+    ports:
+      - "${BACKEND_PORT}:5000"
+    environment:
+      TZ: Asia/Seoul
+    networks:
+      - pcubeplus-network
+    restart: unless-stopped
+
+  pcubeplus-mysql:
+    build: 
+      context: ./mysql
+      dockerfile: Dockerfile
+    container_name: pcubeplus-mysql
+    ports:
+      - "${MYSQL_PORT}:3306"
+    volumes:
+      - ~/docker/volumes/mysql/data:/var/lib/mysql
+    env_file:
+      - ./mysql/.env
+    environment:
+      TZ: Asia/Seoul
+    networks:
+      - pcubeplus-network
+    restart: unless-stopped
+
+networks:
+  pcubeplus-network:
+    driver: bridge
+    name: pcubeplus-network
