@@ -42,7 +42,7 @@ git submodule sync
 
 컨테이너 실행
 
-* 환경 변수 보존을 위해 `sudo` 명령어 이후 `-E` 옵션을 필수적으로 붙여야 함.
+* 환경 변수 보존을 위해 `sudo` 명령어 이후 `-E` 옵션을 붙일 것.
 
 ```bash
 sudo -E docker compose up -d
