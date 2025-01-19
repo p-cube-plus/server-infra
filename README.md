@@ -42,27 +42,31 @@ git submodule sync
 
 컨테이너 실행
 
+* 환경 변수 보존을 위해 `sudo` 명령어 이후 `-E` 옵션을 필수적으로 붙여야 함.
+
 ```bash
-docker compose up -d
+sudo -E docker compose up -d
 
 # 프로젝트 변경 사항 반영 원할 시 다음 명령어를 대신 실행
-docker compose up -d --build
+sudo -E docker compose up -d --build
 ```
 
 컨테이너 종료
 
 ```bash
-docker compose down
+sudo docker compose down
 ```
 
 컨테이너 재시작
 
+* 마찬가지로 환경 변수 보존을 위해 `sudo` 명령어 이후 `-E` 옵션을 필수적으로 붙여야 함.
+
 ```bash
-docker compose restart
+sudo -E docker compose restart
 ```
 
 컨테이너 로그 확인 (-f 옵션을 통해 실시간 출력 확인)
 
 ```bash
-docker compose -f container_name
+sudo docker compose logs -f container_name
 ```
