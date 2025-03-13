@@ -13,35 +13,61 @@ CREATE TABLE `project` (
 	`is_able_inquiry`	BOOL	NOT NULL	DEFAULT true
 );
 
+-- 회원 기본 정보
 CREATE TABLE `user` (
-	`id`	BIGINT	NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	`hash`	VARCHAR(64)	NOT NULL,
-	`is_signed`	BOOL	NOT NULL	DEFAULT false,
-	`name`	VARCHAR(60)	NOT NULL,
-	`level`	INT	NOT NULL	COMMENT '(탈퇴자, 정회원, 수습회원, 명예회원, 수습회원(휴학), 졸업생)',
-	`grade`	INT	NOT NULL	COMMENT '1, 2, 3, 4',
-	`part_index`	INT	NOT NULL	COMMENT '파트: 0~2(디자인, 아트, 프로그래밍)',
-	`profile_image`	VARCHAR(1023)	NULL,
-	`univ`	VARCHAR(100)	NULL,
-	`last_cleaning`	DATE	NULL,
-	`rest_type`	INT	NOT NULL	COMMENT '(일반휴학, 군휴학)',
-	`etc_message`	VARCHAR(1023)	NULL,
-	`absent_reason`	VARCHAR(150)	NULL,
-	`absent_detail_reason`	VARCHAR(1023)	NULL,
-	`phone_number`	VARCHAR(56)	NULL,
-	`join_date`	DATE	NULL,
-	`birth_date`	DATE	NULL,
-	`birth_month`	INT	NULL,
-	`birth_day`	INT	NULL,
-	`major`	VARCHAR(256)	NULL,
-	`student_id`	VARCHAR(64)	NULL,
-	`is_next_birth`	BOOL	NOT NULL	DEFAULT false,
-	`return_plan_date`	DATE	NULL,
-	`workshop_count`	INT	NULL,
-	`gogoma`	VARCHAR(30)	NULL,
-	`warning_point`	INT	NOT NULL	DEFAULT 0	COMMENT '실제 경고 점수의 10배를 저장',
-	`fcm_token`	VARCHAR(255)	NULL,
-	`api_access_level`	TINYINT	NOT NULL	DEFAULT 0
+  `id` BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `hash` VARCHAR(64) NOT NULL,
+  `is_signed` BOOLEAN NOT NULL,
+  `name` VARCHAR(60) NOT NULL,
+  `phone_number` VARCHAR(56),
+  `fcm_token` VARCHAR(255),
+  `role` INT NOT NULL,
+  UNIQUE INDEX `idx_hash` (`hash`)
+);
+
+-- 회원 프로필 정보
+CREATE TABLE `profile` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `user_id` BIGINT NOT NULL,
+  `profile_image` VARCHAR(1023),
+  `birth_date` DATE,
+  `etc_message` VARCHAR(1023),
+  `gogoma` VARCHAR(30),
+  UNIQUE INDEX `idx_user_id` (`user_id`)
+);
+
+-- 회원 학업 정보
+CREATE TABLE `academic` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `user_id` BIGINT NOT NULL,
+  `university` VARCHAR(100),
+  `major` VARCHAR(256),
+  `grade` INT NOT NULL,
+  `student_id` VARCHAR(64),
+  UNIQUE INDEX `idx_user_id` (`user_id`)
+);
+
+-- 회원 멤버십 정보
+CREATE TABLE `membership` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `user_id` BIGINT NOT NULL,
+  `level` INT NOT NULL,
+  `part` INT NOT NULL,
+  `join_date` DATE,
+  `workshop_attendance_count` INT,
+  `last_cleaning_date` DATE,
+  UNIQUE INDEX `idx_user_id` (`user_id`)
+);
+
+-- 회원 부재 정보
+CREATE TABLE `absence` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `user_id` BIGINT NOT NULL,
+  `type` INT NOT NULL, -- 0: 재학, 1: 일반휴학, 2: 군휴학
+  `reason` VARCHAR(150),
+  `description` VARCHAR(1023),
+  `expected_return_date` DATE,
+  UNIQUE INDEX `idx_user_id` (`user_id`)
 );
 
 CREATE TABLE `user_project` (
