@@ -24,10 +24,16 @@ chmod 600 config.ini
 
 ## Git Submodule 관련 명령어
 
-submodule 업데이트 (최신 커밋으로 업데이트)
+submodule 초기화
 
 ```bash
 git submodule update --init
+```
+
+submodule 업데이트 (가장 최신 커밋으로 업데이트)
+
+```bash
+git submodule update --remote
 ```
 
 `.gitmodules`의 submodule url 변경 시 sync
