@@ -19,7 +19,6 @@ CREATE TABLE `user` (
 	`hash` VARCHAR(64) NOT NULL,
 	`is_signed` BOOLEAN NOT NULL,
 	`name` VARCHAR(60) NOT NULL,
-	`phone_number` VARCHAR(56),
 	`fcm_token` VARCHAR(255),
 	`role` INT NOT NULL DEFAULT 0,
 	UNIQUE INDEX `idx_hash` (`hash`)
@@ -29,10 +28,10 @@ CREATE TABLE `user` (
 CREATE TABLE `profile` (
 	`id` BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	`user_id` BIGINT NOT NULL,
+	`phone_number` VARCHAR(56),
 	`profile_image` VARCHAR(1023),
 	`birth_date` DATE,
-	`etc_message` VARCHAR(1023),
-	`gogoma` VARCHAR(30),
+	`description` VARCHAR(1023),
 	UNIQUE INDEX `idx_user_id` (`user_id`)
 );
 
@@ -54,8 +53,6 @@ CREATE TABLE `membership` (
 	`level` INT NOT NULL,
 	`part` INT NOT NULL,
 	`join_date` DATE,
-	`workshop_attendance_count` INT,
-	`last_cleaning_date` DATE,
 	UNIQUE INDEX `idx_user_id` (`user_id`)
 );
 
@@ -63,8 +60,7 @@ CREATE TABLE `membership` (
 CREATE TABLE `absence` (
 	`id` BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	`user_id` BIGINT NOT NULL,
-	`type` INT NOT NULL,
-	-- 0: 재학, 1: 일반휴학, 2: 군휴학
+	`type` INT NOT NULL, -- 0: 재학, 1: 일반휴학, 2: 군휴학
 	`reason` VARCHAR(150),
 	`description` VARCHAR(1023),
 	`expected_return_date` DATE,
